@@ -1,0 +1,143 @@
+.imageUploaderContainer {
+    height: 50%;
+    width: 100%;
+    /* border: solid 1px black; */
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.downDisplay {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.leftDisplay {
+    width: 50%;
+    padding: 20px;
+    background-color: rgba(203, 202, 210, 0.548);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.title {
+    margin-bottom: 30px;
+}
+
+.nameListContainer {
+    margin-top: 30px;
+}
+
+.nameListContainer ul {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.nameListContainer ul li{
+   display: flex;
+   line-height: 30px;
+   align-items: center;
+   gap: 10px;
+   border: solid 1px black;
+   padding: 2px 5px;
+   border-radius: 5px;
+}
+
+.deleteImage {
+    background: none;
+    border: none;
+    height: 12px;
+    color: red;
+    cursor: pointer;
+}
+
+.rightDisplay {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    
+}
+
+.imageViewer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.imageWrapper {
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* styles.css o imageUploader.module.css */
+.imageContainer {
+    position: relative;
+    max-width: 100%; /* El contenedor se adapta al tamaño máximo disponible */
+    max-height: 80vh; /* El contenedor puede tener un máximo de 80% de la altura de la ventana (puedes ajustarlo) */
+    margin: 0 auto; /* Centra el contenedor */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Esconde cualquier contenido que se desborde */
+  }
+  
+  .imageContainer img {
+    max-width: 100%; /* La imagen ocupa el 100% del contenedor, pero respeta las proporciones */
+    max-height: 100%; /* La imagen no excederá la altura del contenedor */
+    object-fit: contain; /* Asegura que la imagen mantenga sus proporciones dentro del contenedor */
+  }
+  
+
+.imageNavigation {
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.noImageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+}
+
+.icon {
+    font-size: 50px;
+    color: rgba(50, 46, 46, 0.578);
+}
+
+.btnContainer {
+    width: fit-content;
+    height: fit-content;
+    background-color: #007bff; /* Color de fondo azul */
+    color: white; /* Color de texto blanco */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none; /* Eliminar subrayado */
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .btnContainer:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  }
+  
+  .btnContainer:focus {
+    outline: none; /* Eliminar el borde al hacer foco */
+  }

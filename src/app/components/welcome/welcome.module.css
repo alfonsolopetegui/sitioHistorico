@@ -1,0 +1,39 @@
+.welcomeContainer {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    display: flex;
+}
+
+.leftDiv {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+.imageContainer {
+    width: 700px;
+    height: 500px;
+    position: relative;
+    border-radius: 15px;
+}
+
+.imageContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.rightDiv {
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

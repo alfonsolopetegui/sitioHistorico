@@ -1,0 +1,16 @@
+
+
+.optionContainer a {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: flex-start;
+    font-size: 1.5rem;
+    transition: all ease .4s;
+    border-bottom: .5px solid rgba(255, 255, 255, 0.571);
+}
+
+.optionContainer a:hover {
+    background-color: white;
+    color: black;
+}

@@ -1,0 +1,38 @@
+.categoryPageContainer {
+    width: 100%;
+    height: 90vh;
+    display: flex;
+}
+
+.leftMenuContainer {
+    width: 20%;
+    height: 100%;
+    background-color: #021b2b;
+    color: white;
+    text-align: center;
+}
+
+.displayRight {
+    width: 80%;
+    height: 100%;
+}
+
+.imagesContainer {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 20px;
+    padding: 30px;
+}
+
+.imagesContainer a {
+    width: auto;
+    height: fit-content;
+}
+
+.btnContainer {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap:20px;
+}

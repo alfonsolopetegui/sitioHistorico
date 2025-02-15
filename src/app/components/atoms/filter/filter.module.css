@@ -1,0 +1,126 @@
+/* filter.module.css */
+
+.filterContainer {
+  width: 100%;
+  max-width: 600px; /* Limita el ancho del contenedor */
+  /* Centra el contenedor en la página */
+  padding: 15px;
+  color: white;
+  border-radius: 8px; /* Bordes redondeados */
+}
+
+.filterContainer h1 {
+  width: 100%;
+  text-align: center;
+  font-size: 24px; /* Tamaño del título */
+  margin-bottom: 20px; /* Espacio debajo del título */
+}
+
+.filterContainer form {
+  display: flex; /* Utiliza flexbox para un mejor layout */
+  flex-direction: column; /* Coloca los elementos en columnas */
+}
+
+.startYear label,
+.endYear label {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px; /* Espacio entre etiquetas */
+}
+
+.location label,
+.eventType label {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.location label input,
+.eventType label input {
+  width: 120px;
+}
+
+
+.eventType label select:hover {
+  cursor: pointer;
+}
+
+.startYear label input,
+.endYear label input,
+.location label input,
+.eventType label select {
+  padding: 10px; /* Espaciado interno en los campos */
+  border: 1px solid #ccc; /* Borde de los campos */
+  border-radius: 4px; /* Bordes redondeados */
+  margin-top: 5px; /* Espacio entre la etiqueta y el campo */
+  outline: none;
+  color: rgba(0, 0, 0, 0.395);
+}
+
+.startYear label input,
+.endYear label input {
+  width: 60px;
+}
+
+.startYear label input:focus,
+.endYear label input:focus,
+.location label input:focus,
+.eventType label select:focus {
+  box-shadow: 0px 0px 0px 2px  rgb(26, 180, 226);
+}
+
+.startYear label input::placeholder,
+.endYear label input::placeholder {
+  color: rgba(0, 0, 0, 0.461);
+}
+.tagsWrapper h3 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  width: 100%;
+  text-align: center;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tagContainer {
+  display: flex;
+  align-items: center;
+}
+
+.tagContainer label {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.tagContainer label input:hover{
+  cursor: pointer;
+}
+.filterContainer form button {
+  margin-top: 20px; /* Espacio encima del botón */
+  padding: 10px 15px; /* Espaciado interno del botón */
+  border: none; /* Sin borde */
+  border-radius: 4px; /* Bordes redondeados */
+  background-color: #5CA4A9; /* Color de fondo del botón */
+  color: white; /* Color del texto del botón */
+  font-weight: 600;
+  font-size: 16px; /* Tamaño del texto */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+  transition: all ease 0.3s;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset; /* Transición suave al cambiar el color */
+}
+
+.filterContainer form button:hover {
+  background-color: #167279; /* Color de fondo al pasar el mouse */
+  color: white;
+}

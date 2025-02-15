@@ -1,0 +1,58 @@
+.pagination {
+  height: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-top: 20px; */
+  list-style: none; /* Elimina el estilo de lista por defecto */
+  padding: 10px;
+}
+
+.pagination li {
+  margin: 0 5px; /* Espaciado entre los elementos de paginación */
+  cursor: pointer;
+}
+
+.pagination a {
+  text-decoration: none;
+  color: var(--primary-color);
+  padding: 8px 12px;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  transition: all ease 0.3s;
+}
+
+.page {
+  display: inline-block; /* Asegura que cada página esté en línea */
+  margin: 0 5px; /* Espaciado entre los elementos */
+  cursor: pointer; /* Cambia el cursor al pasar el mouse */
+}
+
+.active a {
+  background-color: var(--primary-color); /* Fondo para la página activa */
+  color: white; /* Texto blanco para la página activa */
+  border: 1px solid var(--primary-color); /* Sin borde o borde que coincida con el fondo */
+  border-radius: 4px; /* Bordes redondeados */
+}
+
+.pagination a:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.previous,
+.next {
+  margin: 0 5px;
+  cursor: pointer;
+  transition: all ease 0.3s;
+}
+
+/* .previous:hover,
+.next:hover {
+  background-color: var(--primary-color);
+  color: white;
+} */
+
+.break-item {
+  display: none;
+}

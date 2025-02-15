@@ -1,0 +1,30 @@
+/* simpleButton.module.css */
+.btnContainer {
+    width: 80px;
+    height: 40px;
+    background-color: #007bff; /* Color de fondo azul */
+    color: white; /* Color de texto blanco */
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none; /* Eliminar subrayado */
+    display: inline-block;
+    text-align: center;
+  }
+  
+  .btnContainer:hover {
+    background-color: #0056b3; /* Color más oscuro al pasar el mouse */
+  }
+  
+  .btnContainer:focus {
+    outline: none; /* Eliminar el borde al hacer foco */
+  }
+  
+  /* Aseguramos que los enlaces se vean como botones */
+  .linkStyle {
+    display: inline-block;
+    text-decoration: none;
+  }
+  

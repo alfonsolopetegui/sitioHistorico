@@ -1,0 +1,71 @@
+.descriptionContainer {
+    height: 100%;
+    width: 100%;
+    /* border: solid 1px black; */
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.topDisplay {
+    height: 25%;
+    width: 100%;
+    background-color: rgba(220, 130, 65, 0.614);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottomDisplay {
+    height: 75%;
+    width: 100%;
+    padding: 20px;
+    color: black;
+}
+
+.description {
+    padding-left: 5px;
+    width: 100%;
+    height: 100%;
+    /* max-height: 300px; */
+    resize: vertical;
+    padding: 10px;
+    font-size: 1rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    box-sizing: border-box;
+    overflow-y:auto;
+    word-wrap: break-word; /* Permite que las palabras largas se rompan */
+    white-space: pre-wrap; /* Mantiene los saltos de línea y ajusta el texto */
+}
+
+.description:focus {
+    border: none;
+    color: black;
+    outline: solid 1px rgba(134, 148, 134, 0.55);
+}
+
+/* Estilizar el área de la barra de desplazamiento */
+.bottomDisplay textarea::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento vertical */
+    height: 8px; /* Altura de la barra de desplazamiento horizontal */
+  }
+  
+  /* Estilizar el fondo de la barra de desplazamiento */
+  .bottomDisplay textarea::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Color de fondo de la barra de desplazamiento */
+    border-radius: 10px; /* Radio de los bordes del fondo */
+  }
+  
+  /* Estilizar el "pulgar" de la barra de desplazamiento (la parte que se mueve) */
+  .bottomDisplay textarea::-webkit-scrollbar-thumb {
+    background: #888; /* Color del pulgar */
+    border-radius: 10px; /* Radio de los bordes del pulgar */
+    border: 2px solid #f1f1f1; /* Agregar borde alrededor del pulgar */
+  }
+  
+  /* Estilizar cuando el pulgar está en hover (cuando el usuario pasa el mouse por encima) */
+  .bottomDisplay textarea::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Color más oscuro cuando el usuario interactúa */
+  }
+  
