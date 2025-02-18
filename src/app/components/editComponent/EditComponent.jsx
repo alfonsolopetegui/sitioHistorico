@@ -18,7 +18,7 @@ const EditComponent = () => {
     date: "",
     tags: [],
     urls: [],
-    path: "",
+    categories: "",
   });
 
   const [imageFiles, setImageFiles] = useState([]);
@@ -34,7 +34,7 @@ const EditComponent = () => {
         date: selectedPub.date,
         tags: selectedPub.tags,
         urls: selectedPub.urls,
-        path: selectedPub.path,
+        categories: selectedPub.categories,
       });
     }
   }, [selectedPub]);
@@ -68,7 +68,7 @@ const EditComponent = () => {
       date: ${states.date}
       year: ${states.year}
       tags: ${states.tags}
-      path: ${states.path}
+      categories: ${states.categories}
       
       urls: ${states.urls}`);
   };

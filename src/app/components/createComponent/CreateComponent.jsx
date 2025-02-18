@@ -3,6 +3,9 @@ import { DescriptionSetter } from "../atoms/descriptionSetter/DescriptionSetter"
 import { ImageUploader } from "../atoms/imageUploader/ImageUploader";
 import { PublicationDataSetter } from "../atoms/publicationDataSetter/PublicationDataSetter";
 import styles from "./createComponent.module.css";
+import { storage } from "../../../../utils/firebase";
+import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { categories } from "@/app/fakeData/data";
 
 const CreateComponent = ({ active, setActive }) => {
   const [states, setStates] = useState({
@@ -13,47 +16,96 @@ const CreateComponent = ({ active, setActive }) => {
     date: "",
     tags: [],
     urls: [],
-    path: "",
+    categories:[],
   });
   const [imageFiles, setImageFiles] = useState([]);
   const [isModified, setIsModified] = useState(false); // Estado para detectar cambios
 
-
+   // Función para subir las imágenes a Firebase Storage
+   const uploadImagesToStorage = async (files) => {
+    const imageUrls = []; // Guardamos las URLs de las imágenes subidas
+    const promises = files.map((file) => {
+      return new Promise((resolve, reject) => {
+        const storageRef = ref(storage, `publications/${file.name}`);  // Aquí se usa ref correctamente
+        const uploadTask = uploadBytesResumable(storageRef, file);      // Usamos uploadBytesResumable con la referencia
+  
+        uploadTask.on(
+          "state_changed",
+          null, // Puedes agregar el progreso de carga aquí si lo deseas
+          (error) => reject(error), // En caso de error, lo rechazamos
+          async () => {
+            // Una vez que la imagen se haya subido correctamente
+            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref); // Obtener URL de descarga
+            imageUrls.push(downloadURL);
+            resolve();
+          }
+        );
+      });
+    });
+  
+    // Esperamos que todas las imágenes se suban
+    await Promise.all(promises);
+  
+    return imageUrls; // Devolvemos las URLs de las imágenes
+  };
   
 
-  // Evento de confirmación antes de salir o recargar la página
-  useEffect(() => {
-    const handleBeforeUnload = (event) => {
-      if (isModified) {
-        const message =
-          "Tienes cambios sin guardar. ¿Seguro que quieres salir?";
-        event.returnValue = message; // Mensaje estándar en algunos navegadores
-        return message; // Mensaje en otros navegadores
+
+  const handleSave = async () => {
+    // Verifica que los datos esenciales estén presentes antes de hacer el POST
+    if (!states.title || !states.description || !states.photographer) {
+      alert("Por favor, completa todos los campos requeridos.");
+      return;
+    }
+  
+    try {
+      // Utilizamos la función uploadImagesToStorage para obtener las URLs de las imágenes
+      const imageUrls = await uploadImagesToStorage(imageFiles);
+  
+      // Ahora que tenemos las URLs de las imágenes, podemos realizar el POST con todos los datos
+      const postData = {
+        title: states.title,
+        description: states.description,
+        photographer: states.photographer,
+        credits: states.credits,
+        date: states.date,
+        tags: states.tags,
+        urls: imageUrls, // Asigna las URLs de las imágenes
+        categories: states.categories,
+      };
+  
+      // Realiza el POST a tu API
+      const response = await fetch("/api/publications", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      });
+  
+      if (response.ok) {
+        alert("La publicación se ha guardado correctamente.");
+        setStates({
+          title: "",
+          photographer: "",
+          description: "",
+          credits: "",
+          date: "",
+          tags: [],
+          urls: [],
+          categories:[],
+        });
+        setImageFiles([]); // Limpiar las imágenes después del éxito
+      } else {
+        alert("Hubo un error al guardar la publicación. Intenta nuevamente.");
       }
-    };
-
-    // Agregar el listener de `beforeunload` cuando el componente se monta
-    window.addEventListener("beforeunload", handleBeforeUnload);
-
-    // Limpiar el listener cuando el componente se desmonta
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeUnload);
-    };
-  }, [isModified]);
-
-  //Función para salvar datos
-  const handleSave = () => {
-    alert(`title: ${states.title}
-      description: ${states.description} 
-      photographer: ${states.photographer}
-      credits: ${states.credits}
-      date: ${states.date}
-      tags: ${states.tags}
-      path: ${states.path}
-      urls: ${states.urls}`);
+    } catch (error) {
+      console.error("Error al guardar la publicación:", error);
+      alert("Hubo un error al cargar las imágenes o al guardar la publicación.");
+    }
   };
 
-  //Función para cancelar la entrada de datos
+  // Función para cancelar la entrada de datos
   const handleCancel = () => {
     const cancelConfirm = window.confirm("Estas seguro que deseas salir?");
     if (!cancelConfirm) {
@@ -85,7 +137,11 @@ const CreateComponent = ({ active, setActive }) => {
           isEditMode={false}
         />
         <div className={styles.rightBottom}>
-          <DescriptionSetter states={states} setStates={setStates} isEditMode={false}/>
+          <DescriptionSetter
+            states={states}
+            setStates={setStates}
+            isEditMode={false}
+          />
           <div className={styles.btnContainer}>
             <article
               className={styles.btn}

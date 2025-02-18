@@ -95,10 +95,10 @@ export const PublicationDataSetter = ({ states, setStates, isEditMode }) => {
       setCurrentCategories(category.subcategories); // Mostramos las subcategorías
       setFinalPath(false); // Aún no estamos en el final, ya que hay más subcategorías
     } else {
-      // Actualizamos el estado de `path`
       setStates((prevState) => ({
         ...prevState,
         path: newPath, // Actualizamos el valor de `path`
+        categories: newPath.split('/'), // Guardamos las categorías como array de strings
       }));
       setFinalPath(true); // Si no tiene subcategorías, estamos en el final
       setSelectedCategories("");
@@ -110,7 +110,8 @@ export const PublicationDataSetter = ({ states, setStates, isEditMode }) => {
     setCurrentCategories(categories); // Asegúrate de que `categories` sea el conjunto raíz de categorías
     setStates((prevState) => ({
       ...prevState,
-      path: "", // Restablece el path
+      path: "", // Restablecemos el path a vacío
+      categories: [], // Limpiamos las categorías seleccionadas
     }));
     setFinalPath(false); // Volver atrás implica que no estamos en el final
   };

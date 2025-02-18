@@ -19,7 +19,7 @@ const SelectedCard = ({ data, handler }) => {
 
   //Paginación
 
-  const pageCount = data.url.length;
+  const pageCount = data.urls.length;
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
   };
@@ -51,13 +51,13 @@ const SelectedCard = ({ data, handler }) => {
             onClick={handleFullscreen}
           >
             <Image
-              src={data.url[currentPage]}
+              src={data.urls[currentPage]}
               alt="Descripción de la imagen"
               width={250}
               height={250}
             />
           </div>
-          {data.url.length > 1 && (
+          {data.urls.length > 1 && (
             <div className={styles.paginationContainer}>
               <Pagination
                 handlePageChange={handlePageChange}
@@ -111,7 +111,7 @@ const SelectedCard = ({ data, handler }) => {
         onClick={handleFullscreen}
       >
         <Image
-          src={data.url[currentPage]}
+          src={data.urls[currentPage]}
           alt="Descripción de la imagen"
           width={250}
           height={250}

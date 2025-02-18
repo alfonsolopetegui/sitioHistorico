@@ -1,4 +1,3 @@
-
 import ImageViewer from "@/app/components/imageViewer/ImageViewer";
 import { categories } from "@/app/fakeData/data"; // Verifica la importación
 
@@ -7,12 +6,17 @@ import styles from "../categories.module.css";
 import SmallCard from "@/app/components/atoms/smallCard/SmallCard";
 import SimpleButton from "@/app/components/atoms/simpleButton/SimpleButton";
 
-const Page = ({ params }) => {
-
-  
-
+// Componente asincrónico
+const Page = async ({ params }) => {
   const { slug } = params;
 
+  // Obtener las publicaciones desde la API
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/publications`);
+  const publications = await res.json();
+
+  console.log(publications)
+
+  // Lógica para encontrar la categoría
   const findCategory = (slugArray, categories) => {
     return (
       slugArray.reduce((currentCategories, slug) => {
@@ -51,9 +55,8 @@ const Page = ({ params }) => {
           </section>
         ) : (
           <ImageViewer
-            // images={images}
+            publications={publications} // Pasar las publicaciones obtenidas
             categories={slug}
-          
           />
         )}
       </div>

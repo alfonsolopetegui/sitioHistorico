@@ -4,9 +4,9 @@ import CardSimple from "../atoms/CardSimple/CardSimple";
 import { useState } from "react";
 import SelectedCard from "../atoms/selectedCard/SelectedCard";
 import Pagination from "../atoms/pagination/Pagination";
-import { images } from "@/app/fakeData/data";
+// import { Images } from "@/app/fakeData/data";
 
-const ImageViewer = ({ categories }) => {
+const ImageViewer = ({ categories, publications }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 8;
@@ -19,23 +19,23 @@ const ImageViewer = ({ categories }) => {
     setSelectedCard(null);
   };
 
-  console.log(images);
+  console.log(publications);
 // Filtrar imágenes según las categorías
-const filteredImages = images.filter((img) =>
-  categories.every(category => img.categories.includes(category))
+const filteredPublications = publications.filter((pub) =>
+  categories.every(category => pub.categories.includes(category))
 );
 
 
   console.log("Categorías:", categories);
-  console.log("Imágenes filtradas:", filteredImages);
+  console.log("Imágenes filtradas:", filteredPublications);
 
   // Lógica para calcular las imágenes que se mostrarán
   const startIndex = currentPage * itemsPerPage;
-  const currentImages = filteredImages.slice(
+  const currentPublications = filteredPublications.slice(
     startIndex,
     startIndex + itemsPerPage
   );
-  const pageCount = Math.ceil(filteredImages.length / itemsPerPage);
+  const pageCount = Math.ceil(filteredPublications.length / itemsPerPage);
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
@@ -49,8 +49,8 @@ const filteredImages = images.filter((img) =>
         </div>
       ) : (
         <div className={styles.cardList}>
-          {currentImages.length > 0 ? (
-            currentImages.map((data, index) => (
+          {currentPublications.length > 0 ? (
+            currentPublications.map((data, index) => (
               <CardSimple
                 key={index}
                 data={data}
