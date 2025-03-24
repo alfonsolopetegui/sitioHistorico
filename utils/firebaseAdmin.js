@@ -1,13 +1,10 @@
 import admin from 'firebase-admin';
-import fs from 'fs';
-import path from 'path';
-
-// Cargar el archivo JSON desde el sistema de archivos
-const serviceAccount = JSON.parse(
-  fs.readFileSync(path.resolve('config', 'firebase-service-account.json'))
-);
 
 if (!admin.apps.length) {
+  // Obtener el JSON de las credenciales desde la variable de entorno
+  const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY);
+
+  // Inicializar Firebase Admin
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://sitiohistorico-2519c.firebaseio.com",
