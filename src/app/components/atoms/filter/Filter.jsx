@@ -114,8 +114,8 @@ const Filter = () => {
         <div className={styles.tagsWrapper}>
           <h3>Etiquetas</h3>
           <div className={styles.tags}>
-            {tags.map((tag) => (
-              <div className={styles.tagContainer}>
+            {tags.map((tag, index) => (
+              <div key={index} className={styles.tagContainer}>
                 <label key={tag}>
                   {tag}
                   <input
