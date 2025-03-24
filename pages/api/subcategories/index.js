@@ -3,26 +3,26 @@ import { db } from "../../../utils/firebaseAdmin";
 // Función para manejar solicitudes GET
 const handleGet = async (req, res) => {
   try {
-    const snapshot = await db.collection("publications").get();
-    const publications = snapshot.docs.map((doc) => ({
+    const snapshot = await db.collection("subcategories").get();
+    const subcategories = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
     }));
-    res.status(200).json(publications);
+    res.status(200).json(subcategories);
   } catch (error) {
-    res.status(500).json({ error: "Error fetching publications" });
+    res.status(500).json({ error: "Error fetching subcategories" });
   }
 };
 
 // Función para manejar solicitudes POST
 const handlePost = async (req, res) => {
   try {
-    const newPublication = req.body;
-    const docRef = await db.collection("publications").add(newPublication);
+    const newSubcategory = req.body;
+    const docRef = await db.collection("subcategories").add(newSubcategory);
     const doc = await docRef.get();
     res.status(201).json({ id: doc.id, ...doc.data() });
   } catch (error) {
-    res.status(500).json({ error: "Error creating publication" });
+    res.status(500).json({ error: "Error creating subcategories" });
   }
 };
 

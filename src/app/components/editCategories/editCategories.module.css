@@ -1,0 +1,161 @@
+.editCategoriesWrapper {
+  position: relative;
+}
+
+.categoriesContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.displayRight {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.header h3 {
+  color: #ccc;
+  border: solid 2px #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.header h3:hover {
+  color: black;
+  border-color: black;
+  background-color: #eae6e64d;
+}
+
+.imagesContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.categoryCreator h2 {
+  color: rgb(67, 57, 57);
+  width: 100%;
+  text-align: center;
+}
+.categoryCreator {
+  height: fit-content;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between;   */
+  padding: 15px;
+  border-radius: 10px;
+  position: absolute;
+  top: 60px;
+  right: 20px;
+  z-index: 10;
+}
+
+.imageUp {
+  height: fit-content;
+  margin-bottom: 20px;
+}
+
+.categoryCreator.active {
+  gap: 10px;
+}
+
+.imageUploader {
+  width: fit-content;
+  height: fit-content;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+
+
+.field label {
+  color: rgb(26, 22, 22);
+}
+
+.field input {
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  border: none;
+  border-bottom: 1px solid #d3d3d3;
+  outline: none;
+  /* background-color:#e8e0e08a; */
+  font-size: 1rem;
+  
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.categoryCard {
+  position: relative;
+  transition: all 0.3s;
+  z-index: 1;
+}
+
+.categoryCard:hover {
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
+
+.deleteButton {
+  width: fit-content;
+  position: absolute;
+  top: -15px;
+  right: -10px;
+  background-color: rgba(185, 169, 169, 0.247);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: all 0.3s;
+}
+
+.deleteButton:hover {
+  background-color: rgb(225, 64, 64);
+}
+
+.loading {
+  position: absolute; /* Asegura que el loader esté en posición absoluta */
+  top: 50%; /* Centra verticalmente */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Ajusta la posición para centrar completamente */
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.creatorTitle {
+  margin-bottom: 20px;
+}

@@ -1,5 +1,9 @@
 import styles from "./descriptionSetter.module.css";
 import { lato } from "@/app/googleFonts/googleFonts";
+import { Lilita_One } from "next/font/google";
+
+
+const lilita = Lilita_One({ subsets: ["latin"], weight: "400" });
 
 export const DescriptionSetter = ({ states, setStates, isEditMode }) => {
   
@@ -15,7 +19,7 @@ export const DescriptionSetter = ({ states, setStates, isEditMode }) => {
   return (
     <div className={styles.descriptionContainer}>
       <div className={styles.topDisplay}>
-        <h2>Crear Descripción</h2>
+        <h2 className={lilita.className}>Crear Descripción</h2>
       </div>
       <div className={styles.bottomDisplay}>
         <textarea

@@ -2,48 +2,90 @@
 
 import { useEffect, useState } from "react";
 import styles from "./publicationDataSetter.module.css";
-import { categories } from "@/app/fakeData/data"; // Suponiendo que tienes un array de categorías con subcategorías
+import { Lilita_One } from "next/font/google";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 
+import { useCategories } from "../../../../../hooks/useCategories";
+import { useSubcategories } from "../../../../../hooks/useSubcategories";
+import { HashLoader } from "react-spinners";
+import SimpleButton from "../simpleButton/SimpleButton";
+
+const lilita = Lilita_One({ subsets: ["latin"], weight: "400" });
+
 export const PublicationDataSetter = ({ states, setStates, isEditMode }) => {
   const [inputTag, setInputTag] = useState("");
-  const [currentCategories, setCurrentCategories] = useState(categories);
-  const [selectedCategories, setSelectedCategories] = useState("");
-  const [finalPath, setFinalPath] = useState(isEditMode && states.path);
+
+  const { categories = [], isLoading, error } = useCategories();
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categoryTitle, setCategoryTitle] = useState([]);
+
+  // Traemos las subcategorías de la categoría seleccionada, filtrando por `parentId`
+  const {
+    subcategories: currentSubcategories = [],
+    isLoading: subcategoriesLoading,
+    error: subcategoriesError,
+  } = useSubcategories(selectedCategory?.id);
+
+  console.log(states.categoryId);
+  console.log(categoryTitle)
 
   useEffect(() => {
-    if (isEditMode && states.path) {
-      // Si ya hay un path, lo validamos
-      const pathParts = states.path.split("/");
-
-      let currentCategory = categories; // Empezamos con el array de categorías principal
-
-      // Recorremos los elementos del path, excepto el último
-      for (let i = 0; i < pathParts.length; i++) {
-        const part = pathParts[i];
-        // Buscamos la categoría correspondiente a esta parte del path
-        const foundCategory = currentCategory.find((c) => c.slug === part);
-
-        if (foundCategory) {
-          // Si encontramos la categoría, actualizamos `currentCategory` a sus subcategorías (si las tiene)
-          currentCategory = foundCategory.subcategories || [];
-        } else {
-          // Si no encontramos la categoría, salimos del bucle
-          break;
-        }
-      }
-
-      // Verificamos si llegamos a una categoría final (sin subcategorías)
-      if (currentCategory.length === 0) {
-        setFinalPath(true); // Si no hay más subcategorías, es un "final path"
-      } else {
-        setFinalPath(false); // Si aún hay subcategorías, no es un "final path"
-      }
+    if (
+      states.categoryId &&
+      categories && // Asegúrate de que categories esté definido
+      categories.length > 0 &&
+      currentSubcategories?.length > 0
+    ) {
+      const path = getCategoryPath(states.categoryId, categories, currentSubcategories);
+      setCategoryTitle(path);
+      
     }
-  }, [isEditMode, states.path, categories]);
+  }, [
+    states.categoryId,
+    categories,
+    currentSubcategories,
+  ]);
+  
 
-  console.log(finalPath);
+  if (isLoading || subcategoriesLoading)
+    return (
+      <div className={styles.loading}>
+        <HashLoader size={50} color="#5CA4A9" />
+      </div>
+    );
+
+  const getCategoryPath = (categoryId, categories, allSubcategories) => {
+    let path = [];
+    let allItems = [...categories, ...allSubcategories]; // Unir categorías y subcategorías en un solo array
+    let currentCategory = allItems.find((item) => item.id === categoryId);
+
+    // Recorre la jerarquía hacia arriba
+    while (currentCategory) {
+      path.unshift(currentCategory.name); // Agrega al inicio
+      currentCategory = allItems.find(
+        (item) => item.id === currentCategory.parentId
+      );
+    }
+
+    return path;
+  };
+
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+    setCategoryTitle((prevTitle) => [...prevTitle, category.name]); // Actualiza el título de categorías
+    setStates((prevState) => ({
+      ...prevState,
+      categoryId: category.id,
+    }));
+  };
+
+  // Mostrar subcategorías solo si la categoría seleccionada tiene subcategorías que coinciden con `parentId`
+  const filteredSubcategories = currentSubcategories?.filter(
+    (subcat) => subcat.parentId === selectedCategory?.id
+  );
 
   // Actualiza el estado del campo específico
   const handleChange = (field, value) => {
@@ -81,45 +123,56 @@ export const PublicationDataSetter = ({ states, setStates, isEditMode }) => {
     }));
   };
 
-  // Función para manejar la selección de una categoría
-  const handleCategorySelect = (category, parentPath = selectedCategories) => {
-    // Generamos el nuevo path, concatenando el slug de la categoría
-    const newPath = parentPath
-      ? `${parentPath}/${category.slug}` // Si hay un parentPath, concatenamos el slug
-      : category.slug; // Si no, simplemente asignamos el slug de la categoría
-
-    setSelectedCategories(newPath);
-
-    // Si la categoría seleccionada tiene subcategorías, las mostramos
-    if (category.subcategories && category.subcategories.length > 0) {
-      setCurrentCategories(category.subcategories); // Mostramos las subcategorías
-      setFinalPath(false); // Aún no estamos en el final, ya que hay más subcategorías
-    } else {
-      setStates((prevState) => ({
-        ...prevState,
-        path: newPath, // Actualizamos el valor de `path`
-        categories: newPath.split('/'), // Guardamos las categorías como array de strings
-      }));
-      setFinalPath(true); // Si no tiene subcategorías, estamos en el final
-      setSelectedCategories("");
-    }
-  };
-
-  // Función para regresar a la categoría anterior
   const handleBack = () => {
-    setCurrentCategories(categories); // Asegúrate de que `categories` sea el conjunto raíz de categorías
+    if (categoryTitle.length === 0) {
+      setStates((prevState) => ({ ...prevState, categoryId: null }));
+      setSelectedCategory(null);
+      setCategoryTitle([]);
+      return;
+    }
+  
+    const newCategoryTitle = [...categoryTitle];
+    newCategoryTitle.pop(); // Elimina la última categoría
+  
+    setCategoryTitle(newCategoryTitle); // Actualiza el estado del título de categoría
+  
+    const newSelectedCategory =
+      newCategoryTitle.length > 0
+        ? findCategoryByName([...categories, ...currentSubcategories], newCategoryTitle[newCategoryTitle.length - 1])
+        : null;
+  
+    setSelectedCategory(newSelectedCategory);
     setStates((prevState) => ({
       ...prevState,
-      path: "", // Restablecemos el path a vacío
-      categories: [], // Limpiamos las categorías seleccionadas
+      categoryId: newSelectedCategory ? newSelectedCategory.id : null,
     }));
-    setFinalPath(false); // Volver atrás implica que no estamos en el final
+  };
+  
+  
+
+  const findCategoryByName = (categories, name) => {
+    for (const category of categories) {
+      if (category.name === name) {
+        return category;
+      }
+      if (category.subcategories && category.subcategories.length > 0) {
+        const found = findCategoryByName(category.subcategories, name);
+        if (found) return found;
+      }
+    }
+    return null;
+  };
+
+  const handleDeleteCategory = () => {
+    setStates({ ...states, categoryId: null }); // Vaciamos el categoryId
+    setSelectedCategory(null); // También vacía la categoría seleccionada
+    setCategoryTitle([]); // Vacía el título de categoría
   };
 
   return (
     <div className={styles.publicationDSContainer}>
       <div className={styles.topDisplay}>
-        <h2>{isEditMode ? "Editar Información" : "Agregar Información"}</h2>
+        <h2 className={lilita.className}>{isEditMode ? "Editar Información" : "Agregar Información"}</h2>
       </div>
 
       <div className={styles.bottomDisplay}>
@@ -193,8 +246,6 @@ export const PublicationDataSetter = ({ states, setStates, isEditMode }) => {
             </label>
           </div>
 
-       
-
           {/* Etiquetas */}
           <div className={styles.inputWrapper}>
             <input
@@ -235,29 +286,65 @@ export const PublicationDataSetter = ({ states, setStates, isEditMode }) => {
 
         {/* Categorías */}
         <div className={styles.categories}>
-          {finalPath ? (
-            <div className={styles.selectedCategory}>
-              <h4>Categoría seleccionada: </h4>
-              <h3>{states.path}</h3> {/* Accede directamente a states.path */}
-              <button onClick={handleBack} className={styles.btnContainer}>
-                Cancelar
-              </button>
-            </div>
+          {/* Mostrar el título de la categoría y el botón de borrar si hay un categoryId */}
+          {states.categoryId ? (
+            <section>
+              <h2>{categoryTitle.join("/")}</h2>
+              
+              {/* Botón para borrar */}
+            </section>
           ) : (
-            <div className={styles.categoriesList}>
-              <h3 className={styles.categoriesTitle}>Seleccionar categoría</h3>
+            !selectedCategory && (
+              <section>
 
-              {currentCategories.map((category) => (
-                <h5
-                  key={category.slug} // Usamos slug para la clave, que debería ser único
-                  onClick={
-                    () => handleCategorySelect(category) // Solo pasamos el slug de la categoría
-                  }
-                >
-                  {`${category.name} >`}
-                </h5>
-              ))}
-            </div>
+                {categories && categories.length > 0 ? (
+                  <div className={styles.categoriesContainer}>
+                    {categories.map((category) => (
+                      <div
+                        className={styles.categoryCard}
+                        key={category.id}
+                        onClick={() => handleSelectCategory(category)}
+                      >
+                        <h4
+                          style={{ cursor: "pointer" }}
+                        >{`${category.name}>`}</h4>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p>No hay categorías disponibles.</p>
+                )}
+              </section>
+            )
+          )}
+
+          {/* Mostrar subcategorías si se ha seleccionado una categoría */}
+          {selectedCategory && (
+            <section>
+              {/* <h2>{categoryTitle.join("/")}</h2> */}
+              {filteredSubcategories && filteredSubcategories.length > 0 ? (
+                <div className={styles.categoriesContainer}>
+                  {filteredSubcategories.map((category) => (
+                    <div
+                      className={styles.categoryCard}
+                      key={category.id}
+                      onClick={() => handleSelectCategory(category)}
+                    >
+                      <h4
+                        style={{ cursor: "pointer" }}
+                      >{`${category.name}>`}</h4>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p>No hay subcategorías disponibles.</p>
+              )}
+            </section>
+          )}
+
+           {/* Mostrar botón "Volver" solo si hay una categoría seleccionada */}
+           {categoryTitle.length > 0 && (
+            <SimpleButton handler={handleBack} text="Volver" />
           )}
         </div>
       </div>

@@ -6,10 +6,25 @@ import SelectedCard from "../atoms/selectedCard/SelectedCard";
 import Pagination from "../atoms/pagination/Pagination";
 // import { Images } from "@/app/fakeData/data";
 
-const ImageViewer = ({ categories, publications }) => {
+import { usePublications } from "../../../../hooks/usePublications";
+
+import Swal from "sweetalert2";
+import { HashLoader } from "react-spinners";
+
+const ImageViewer = ({ category }) => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 8;
+
+  const { publications, isLoading, error } = usePublications();
+
+  if (isLoading)
+    return (
+      <div className={styles.loaderContainer}>
+        <HashLoader size={80} />
+      </div>
+    );
+  if (error) return Swal.fire("Error", "Ha ocurrido un error", "error");
 
   const handleCards = (card) => {
     setSelectedCard(card);
@@ -19,15 +34,11 @@ const ImageViewer = ({ categories, publications }) => {
     setSelectedCard(null);
   };
 
-  console.log(publications);
-// Filtrar imágenes según las categorías
-const filteredPublications = publications.filter((pub) =>
-  categories.every(category => pub.categories.includes(category))
-);
-
-
-  console.log("Categorías:", categories);
-  console.log("Imágenes filtradas:", filteredPublications);
+  
+  // Filtrar imágenes según las categorías
+  const filteredPublications = publications.filter(
+    (publication) => publication.categoryId === category.id
+  );
 
   // Lógica para calcular las imágenes que se mostrarán
   const startIndex = currentPage * itemsPerPage;

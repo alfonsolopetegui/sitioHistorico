@@ -1,8 +1,0 @@
-.loginContainer {
-    transition: all .3s ease; 
-}
-
-.field {
-    display: flex;
-    justify-content: space-between;
-}

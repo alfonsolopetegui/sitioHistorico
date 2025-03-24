@@ -57,3 +57,17 @@
 .btn:hover {
     scale: 110%;
 }
+
+.loading {
+    position: absolute; /* Asegura que el loader esté en posición absoluta */
+    top: 50%; /* Centra verticalmente */
+    left: 50%; /* Centra horizontalmente */
+    transform: translate(-50%, -50%); /* Ajusta la posición para centrar completamente */
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+}
+

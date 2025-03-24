@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import { useSession } from "next-auth/react";
+import styles from "./welcomeAdmin.module.css";
 
 const WelcomeAdmin = () => {
-  return (
-    <div>Bienvenido Chiche</div>
-  )
-}
+  const { data: session } = useSession();
 
-export default WelcomeAdmin
+  return (
+    <div>
+      <h1 className={styles.name}>{`Bienvenido: ${session?.user?.username}`}</h1>
+    </div>
+  );
+};
+
+export default WelcomeAdmin;
