@@ -114,12 +114,13 @@ const Filter = () => {
         <div className={styles.tagsWrapper}>
           <h3>Etiquetas</h3>
           <div className={styles.tags}>
-            {tags.map((tag, index) => (
+            {tags.map((tag) => (
               <div key={tag} className={styles.tagContainer}>
-                <label>
+                <label htmlFor={tag}>
                   {tag}
                   <input
                     type="checkbox"
+                    id={tag}
                     checked={selectedTags.includes(tag)}
                     onChange={() => handleTagChange(tag)}
                   />
