@@ -1,11 +1,11 @@
 .pagination {
-  height: 15%;
+  height: 8%;
   display: flex;
   justify-content: center;
   align-items: center;
   /* margin-top: 20px; */
   list-style: none; /* Elimina el estilo de lista por defecto */
-  padding: 10px;
+  /* padding: 10px; */
 }
 
 .pagination li {

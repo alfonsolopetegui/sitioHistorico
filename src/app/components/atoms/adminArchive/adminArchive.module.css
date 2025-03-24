@@ -1,0 +1,16 @@
+.text {
+    font-size: 1rem;
+    font-weight: 400;
+ 
+    cursor: pointer;
+    text-decoration: none;
+    transition: color 0.15s ease-in-out;
+}
+
+.text:hover {
+    color: #b6c9de;
+    text-decoration: none;
+
+
+}
+

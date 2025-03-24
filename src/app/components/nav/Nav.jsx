@@ -4,9 +4,14 @@ import Menu from "../menu/Menu";
 import { useState, useRef } from "react";
 import HamburgerButton from "../atoms/hamburguer/HamburguerButton";
 
+import { Cinzel } from "next/font/google";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+
+
+const cincel = Cinzel({ subsets: ["latin"], weight: "400" });
 
 const Nav = () => {
   const [isActive, setIsActive] = useState(false);
@@ -22,10 +27,11 @@ const Nav = () => {
     <div className={styles.navContainer}>
       <div className={styles.leftNav}>
         <Link href={"/archivo"}>
-          <h3>ArchivoHistórico</h3>
+          <h3 className={`${cincel.className}`}>ArchivoHistórico</h3>
         </Link>
       </div>
       <div className={styles.rightNav}>
+
         <label htmlFor={"search"} className={styles.label}>
           <input type="search" id={"search"} className={styles.search} />
           <FontAwesomeIcon
@@ -33,11 +39,11 @@ const Nav = () => {
             className={`${"fa-fw"} ${styles.icon}`}
           />
         </label>
-        <HamburgerButton
+        {/* <HamburgerButton
           onToggle={toggleMenu}
           isActive={isActive}
           buttonRef={buttonRef}
-        />
+        /> */}
       </div>
       <Menu handler={toggleMenu} isActive={isActive} buttonRef={buttonRef} />
     </div>

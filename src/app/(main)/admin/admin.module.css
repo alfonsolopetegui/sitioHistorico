@@ -11,11 +11,14 @@
   background-color: #021b2b;
   color: white;
   text-align: center;
+  max-height: 90vh;
+
 }
 
 .displayRight {
   width: 80%;
-  height: 100%;
+  height: 90vh;
+  max-height: 90vh;
 }
 
 .menuTitle {

@@ -57,7 +57,7 @@ export const categories = [
 export const images = [
   {
     id: "4",
-    url: ["/edificios3.jpg", "/depo.jpg", "/edificios3.jpg"],
+    urls: ["/edificios3.jpg", "/depo.jpg", "/edificios3.jpg"],
     title: "Iglesia Nuestra señora Abelita Duarte de la Paz",
     description:
       "Data de 1880, y su estructura no ha cedido al paso del tiempo,  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo. Data de 1880, y su estructura no ha cedido al paso del tiempo,  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo. Data de 1880, y su estructura no ha cedido al paso del tiempo,  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo. Data de 1880, y su estructura no ha cedido al paso del tiempo,  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo. Data de 1880, y su estructura no ha cedido al paso del tiempo,  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo  y su estructura no ha cedido al paso del tiempo",
@@ -78,7 +78,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -91,7 +91,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -104,7 +104,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -117,7 +117,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -130,7 +130,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -143,7 +143,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -156,7 +156,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -169,7 +169,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -182,7 +182,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -195,7 +195,7 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
   {
     id: "11",
@@ -208,6 +208,6 @@ export const images = [
     categories: ["instituciones", "deportivas", "deportivo"],
     tags: ["futbol", "campeon"],
     date: "2016-12-12",
-    url: ["/depoEquipo.jpeg"]
+    urls: ["/depoEquipo.jpeg"]
   },
 ];

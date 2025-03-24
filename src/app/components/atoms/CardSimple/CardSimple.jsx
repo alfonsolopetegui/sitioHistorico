@@ -6,7 +6,13 @@ const CardSimple = ({ data, handler }) => {
     <div className={styles.cardContainer} onClick={handler}>
       <div className={styles.upperContainer}>
         <div className={styles.imageContainer}>
-          <Image src={data.urls[0]} layout={"fill"} objectFit="cover" />
+          <Image
+            src={data.urls[0]}
+            layout={"fill"}
+            objectFit="cover"
+            placeholder="blur"
+            blurDataURL="https://via.placeholder.com/10"
+          />
         </div>
       </div>
 

@@ -5,7 +5,12 @@ import { PublicationDataSetter } from "../atoms/publicationDataSetter/Publicatio
 import styles from "./createComponent.module.css";
 import { storage } from "../../../../utils/firebase";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { categories } from "@/app/fakeData/data";
+import { useCategories } from "../../../../hooks/useCategories";
+import { useSubcategories } from "../../../../hooks/useSubcategories";
+
+import imageCompression from "browser-image-compression";
+
+import Swal from "sweetalert2";
 
 const CreateComponent = ({ active, setActive }) => {
   const [states, setStates] = useState({
@@ -16,42 +21,71 @@ const CreateComponent = ({ active, setActive }) => {
     date: "",
     tags: [],
     urls: [],
-    categories:[],
+    categoryId: "",
   });
   const [imageFiles, setImageFiles] = useState([]);
   const [isModified, setIsModified] = useState(false); // Estado para detectar cambios
 
    // Función para subir las imágenes a Firebase Storage
    const uploadImagesToStorage = async (files) => {
-    const imageUrls = []; // Guardamos las URLs de las imágenes subidas
-    const promises = files.map((file) => {
-      return new Promise((resolve, reject) => {
-        const storageRef = ref(storage, `publications/${file.name}`);  // Aquí se usa ref correctamente
-        const uploadTask = uploadBytesResumable(storageRef, file);      // Usamos uploadBytesResumable con la referencia
+    const imageUrls = [];
+    
+    const promises = files.map(async (file) => {
+      try {
+        // Comprimir la imagen antes de subirla
+        const options = {
+          maxSizeMB: 1, // Tamaño máximo en MB
+          maxWidthOrHeight: 1024, // Dimensiones máximas
+          useWebWorker: true, // Usar Web Worker para no bloquear el hilo principal
+        };
   
-        uploadTask.on(
-          "state_changed",
-          null, // Puedes agregar el progreso de carga aquí si lo deseas
-          (error) => reject(error), // En caso de error, lo rechazamos
-          async () => {
-            // Una vez que la imagen se haya subido correctamente
-            const downloadURL = await getDownloadURL(uploadTask.snapshot.ref); // Obtener URL de descarga
-            imageUrls.push(downloadURL);
-            resolve();
-          }
-        );
-      });
+        const compressedFile = await imageCompression(file, options);
+  
+        const storageRef = ref(storage, `publications/${compressedFile.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, compressedFile);
+  
+        return new Promise((resolve, reject) => {
+          uploadTask.on(
+            'state_changed',
+            null, // Puedes agregar el progreso de carga aquí si lo deseas
+            (error) => reject(error), // En caso de error, lo rechazamos
+            async () => {
+              // Una vez que la imagen se haya subido correctamente
+              const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+              imageUrls.push(downloadURL);
+              resolve();
+            }
+          );
+        });
+      } catch (error) {
+        console.error("Error al comprimir la imagen:", error);
+        throw new Error("Error al comprimir la imagen");
+      }
     });
   
-    // Esperamos que todas las imágenes se suban
     await Promise.all(promises);
-  
-    return imageUrls; // Devolvemos las URLs de las imágenes
+    return imageUrls;
   };
   
 
+  const handleSave = () => {
+    Swal.fire({
+      title: "Seguro que deseas guardar los cambios?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Ok",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        savePublication();
+      } else if (result.isDenied) {
+        return;
+      }
+    });
+  };
 
-  const handleSave = async () => {
+
+  const savePublication = async () => {
     // Verifica que los datos esenciales estén presentes antes de hacer el POST
     if (!states.title || !states.description || !states.photographer) {
       alert("Por favor, completa todos los campos requeridos.");
@@ -71,7 +105,7 @@ const CreateComponent = ({ active, setActive }) => {
         date: states.date,
         tags: states.tags,
         urls: imageUrls, // Asigna las URLs de las imágenes
-        categories: states.categories,
+        categoryId: states.categoryId,
       };
   
       // Realiza el POST a tu API
@@ -84,7 +118,7 @@ const CreateComponent = ({ active, setActive }) => {
       });
   
       if (response.ok) {
-        alert("La publicación se ha guardado correctamente.");
+        Swal.fire("Publicación guardada con éxito", "", "success");
         setStates({
           title: "",
           photographer: "",
@@ -93,27 +127,61 @@ const CreateComponent = ({ active, setActive }) => {
           date: "",
           tags: [],
           urls: [],
-          categories:[],
+          categoryId: "",
         });
         setImageFiles([]); // Limpiar las imágenes después del éxito
       } else {
-        alert("Hubo un error al guardar la publicación. Intenta nuevamente.");
+        Swal.fire("Hubo un error al guardar la publicación", "", "error");
       }
     } catch (error) {
       console.error("Error al guardar la publicación:", error);
-      alert("Hubo un error al cargar las imágenes o al guardar la publicación.");
+      Swal.fire("Hubo un error al guardar la publicación", "", "error");
     }
   };
 
-  // Función para cancelar la entrada de datos
-  const handleCancel = () => {
-    const cancelConfirm = window.confirm("Estas seguro que deseas salir?");
-    if (!cancelConfirm) {
-      return;
-    } else {
-      setActive("");
-    }
+  const handleErase = () => {
+    Swal.fire({
+      title: "Seguro que deseas vaciar el formulario?",
+      showDenyButton: true,
+      showCancelButton: false,
+      confirmButtonText: "Ok",
+      denyButtonText: `Cancelar`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setStates({
+          title: "",
+          photographer: "",
+          description: "",
+          credits: "",
+          date: "",
+          tags: [],
+          urls: [],
+          categoryId: "",
+        });
+        setImageFiles([]);
+      } else if (result.isDenied) {
+        return;
+      }
+    });
   };
+
+
+   const handleCancel = () => {
+     Swal.fire({
+       title: "Seguro que deseas cancelar? Los cambios no guardados se perderán",
+       showDenyButton: true,
+       showCancelButton: false,
+       confirmButtonText: "Ok",
+       denyButtonText: `Cancelar`,
+     }).then((result) => {
+       /* Read more about isConfirmed, isDenied below */
+       if (result.isConfirmed) {
+         setActive("");
+       } else if (result.isDenied) {
+         return;
+       }
+     });
+   };
 
   return (
     <div className={styles.createCompContainer}>
@@ -155,7 +223,7 @@ const CreateComponent = ({ active, setActive }) => {
               style={{ backgroundColor: "#B0A1BA", color: "white" }}
               onClick={handleCancel}
             >
-              <h5>Cancelar</h5>
+              <h5>Cerrar</h5>
             </article>
             <article
               className={styles.btn}
@@ -166,8 +234,9 @@ const CreateComponent = ({ active, setActive }) => {
             <article
               className={styles.btn}
               style={{ backgroundColor: "#EA3546", color: "white" }}
+              onClick={handleErase}
             >
-              <h5>Eliminar</h5>
+              <h5>Vaciar</h5>
             </article>
           </div>
         </div>

@@ -55,6 +55,8 @@ const SelectedCard = ({ data, handler }) => {
               alt="Descripción de la imagen"
               width={250}
               height={250}
+              placeholder="blur"
+              blurDataURL="https://via.placeholder.com/10"
             />
           </div>
           {data.urls.length > 1 && (
