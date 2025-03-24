@@ -16,9 +16,9 @@ const Page = () => {
   const [active, setActive] = useState("");
 
   return (
-    <div className={`${styles.adminContainer} ${lato.className}`}>
-      <div className={styles.displayLeft}>
-        <SessionProvider>
+    <SessionProvider>
+      <div className={`${styles.adminContainer} ${lato.className}`}>
+        <div className={styles.displayLeft}>
           <h1 className={styles.menuTitle}>Admin</h1>
           <section className={styles.userInterface}>
             {/* <div className={styles.imageContainer}>
@@ -26,24 +26,22 @@ const Page = () => {
           </div> */}
           </section>
           <AdminMenu active={active} setActive={setActive} />
-        </SessionProvider>
-      </div>
-      <div className={styles.displayRight}>
-        {active === "newPub" ? (
-          <CreateComponent active={active} setActive={setActive} />
-        ) : active === "editPub" ? (
-          <EditComponent active={active} setActive={setActive} />
-        ) : active === "categories" ? (
-          <EditCategories active={active} setActive={setActive} />
-        ) : active === "newUser" ? (
-          <SignUpForm />
-        ) : (
-          <SessionProvider>
+        </div>
+        <div className={styles.displayRight}>
+          {active === "newPub" ? (
+            <CreateComponent active={active} setActive={setActive} />
+          ) : active === "editPub" ? (
+            <EditComponent active={active} setActive={setActive} />
+          ) : active === "categories" ? (
+            <EditCategories active={active} setActive={setActive} />
+          ) : active === "newUser" ? (
+            <SignUpForm />
+          ) : (
             <WelcomeAdmin />
-          </SessionProvider>
-        )}
+          )}
+        </div>
       </div>
-    </div>
+    </SessionProvider>
   );
 };
 
