@@ -5,7 +5,6 @@ import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
 
-import { quicksand, nunito } from "./googleFonts/googleFonts";
 
 export const metadata = {
   title: "Sitio Histórico Alvear",
@@ -15,7 +14,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={nunito.className}>{children}</body>
+      <body>{children}</body>
     </html>
   );
 }
