@@ -115,8 +115,8 @@ const Filter = () => {
           <h3>Etiquetas</h3>
           <div className={styles.tags}>
             {tags.map((tag, index) => (
-              <div key={index} className={styles.tagContainer}>
-                <label key={tag}>
+              <div key={tag} className={styles.tagContainer}>
+                <label>
                   {tag}
                   <input
                     type="checkbox"
