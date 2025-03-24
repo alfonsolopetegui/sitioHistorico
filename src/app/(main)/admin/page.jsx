@@ -12,7 +12,7 @@ import EditCategories from "@/app/components/editCategories/EditCategories";
 import SignUpForm from "@/app/components/signupform/SignUpForm";
 import { SessionProvider } from "next-auth/react";
 
-const page = () => {
+const Page = () => {
   const [active, setActive] = useState("");
 
   return (
