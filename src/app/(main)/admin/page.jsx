@@ -1,6 +1,5 @@
 "use client";
 import styles from "./admin.module.css";
-import Image from "next/image";
 
 import { lato } from "@/app/googleFonts/googleFonts";
 import AdminMenu from "@/app/components/adminMenu/AdminMenu";
@@ -16,8 +15,8 @@ const Page = () => {
   const [active, setActive] = useState("");
 
   return (
-    <SessionProvider>
-      <div className={`${styles.adminContainer} ${lato.className}`}>
+    <div className={`${styles.adminContainer} ${lato.className}`}>
+      <SessionProvider>
         <div className={styles.displayLeft}>
           <h1 className={styles.menuTitle}>Admin</h1>
           <section className={styles.userInterface}>
@@ -40,8 +39,8 @@ const Page = () => {
             <WelcomeAdmin />
           )}
         </div>
-      </div>
-    </SessionProvider>
+      </SessionProvider>
+    </div>
   );
 };
 
